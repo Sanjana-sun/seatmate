@@ -81,7 +81,7 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
       <div className="mt-6 flex items-center gap-3">
         <div className="grid h-14 w-14 place-items-center rounded-xl bg-panel-2 text-3xl">{movie?.poster}</div>
         <div>
-          <h1 className="text-xl font-bold">{movie?.title}</h1>
+          <h1 className="font-serif text-2xl font-medium">{movie?.title}</h1>
           <p className="text-sm text-muted">
             {showtime?.auditorium} · {time}
           </p>
@@ -89,8 +89,8 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
       </div>
 
       {booking.status === "waiting" && (
-        <div className="mt-10 rounded-2xl border border-white/10 bg-panel p-8 text-center">
-          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-accent" />
+        <div className="mt-10 rounded-2xl border border-border bg-panel p-8 text-center">
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-black/15 border-t-accent" />
           <h2 className="text-lg font-semibold">You&apos;re in, {booking.name}.</h2>
           <p className="mt-1 text-sm text-muted">
             We&apos;re gathering solo-goers for this show. Our matcher runs automatically{" "}
@@ -126,7 +126,7 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
           </div>
 
           {(data.sharedInterests.length > 0 || data.iceBreaker) && (
-            <div className="rounded-2xl border border-white/10 bg-panel p-5">
+            <div className="rounded-2xl border border-border bg-panel p-5">
               {data.sharedInterests.length > 0 && (
                 <>
                   <p className="text-xs font-semibold uppercase tracking-wide text-muted">You all like</p>
@@ -148,7 +148,7 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
             </div>
           )}
 
-          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-panel p-5">
+          <div className="flex items-center gap-3 rounded-2xl border border-border bg-panel p-5">
             <span className="text-2xl">🍿</span>
             <div className="flex-1">
               <p className="text-sm font-semibold">Matched-group snack combo</p>
@@ -159,7 +159,7 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
 
           <button
             onClick={leave}
-            className="w-full rounded-lg border border-white/10 py-2.5 text-sm text-muted transition hover:border-white/25 hover:text-foreground"
+            className="w-full rounded-lg border border-border py-2.5 text-sm text-muted transition hover:border-black/20 hover:text-foreground"
           >
             Actually, I&apos;d rather sit alone → switch to a solo seat
           </button>
@@ -167,7 +167,7 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
       )}
 
       {(booking.status === "solo" || booking.status === "left") && (
-        <div className="mt-10 rounded-2xl border border-white/10 bg-panel p-8 text-center">
+        <div className="mt-10 rounded-2xl border border-border bg-panel p-8 text-center">
           <h2 className="text-lg font-semibold">You&apos;re all set with your own seat.</h2>
           <p className="mt-1 text-sm text-muted">
             {booking.status === "left"
@@ -183,10 +183,10 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
 
 function RepBadge({ rep }: { rep: Rep }) {
   const map: Record<Rep["label"], { text: string; cls: string }> = {
-    new: { text: "New", cls: "bg-white/10 text-muted" },
-    trusted: { text: `★ ${rep.avg?.toFixed(1)}`, cls: "bg-emerald-500/15 text-emerald-400" },
-    watch: { text: `★ ${rep.avg?.toFixed(1)}`, cls: "bg-amber-500/15 text-amber-400" },
-    blocked: { text: "Restricted", cls: "bg-red-500/15 text-red-400" },
+    new: { text: "New", cls: "bg-black/8 text-muted" },
+    trusted: { text: `★ ${rep.avg?.toFixed(1)}`, cls: "bg-emerald-600/12 text-emerald-700" },
+    watch: { text: `★ ${rep.avg?.toFixed(1)}`, cls: "bg-amber-600/15 text-amber-700" },
+    blocked: { text: "Restricted", cls: "bg-red-600/12 text-red-700" },
   };
   const b = map[rep.label];
   return <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${b.cls}`}>{b.text}</span>;
@@ -236,7 +236,7 @@ function PersonRow({
   return (
     <div className="rounded-xl bg-panel-2 p-3">
       <div className="flex items-center gap-3">
-        <div className={`grid h-10 w-10 place-items-center rounded-full text-sm font-semibold ${you ? "bg-accent text-black" : "bg-accent-2 text-white"}`}>
+        <div className={`grid h-10 w-10 place-items-center rounded-full text-sm font-semibold ${you ? "bg-accent text-white" : "bg-accent-2 text-white"}`}>
           {name.slice(0, 1).toUpperCase()}
         </div>
         <div className="flex-1">
@@ -246,11 +246,11 @@ function PersonRow({
           </div>
           <p className="text-xs capitalize text-muted">{sub}</p>
         </div>
-        {seat && <span className="rounded-lg bg-white/10 px-2.5 py-1 text-sm font-semibold">{seat}</span>}
+        {seat && <span className="rounded-lg bg-black/10 px-2.5 py-1 text-sm font-semibold">{seat}</span>}
       </div>
 
       {!you && userId && (
-        <div className="mt-3 flex items-center justify-between border-t border-white/5 pt-3">
+        <div className="mt-3 flex items-center justify-between border-t border-black/5 pt-3">
           <div className="flex items-center gap-1">
             <span className="mr-1 text-xs text-muted">Rate after the show:</span>
             {[1, 2, 3, 4, 5].map((s) => (
@@ -267,7 +267,7 @@ function PersonRow({
           <button
             onClick={report}
             disabled={reported}
-            className="text-xs text-muted transition hover:text-red-400 disabled:opacity-50"
+            className="text-xs text-muted transition hover:text-red-600 disabled:opacity-50"
           >
             {reported ? "Reported" : "Report"}
           </button>

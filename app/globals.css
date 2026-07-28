@@ -1,13 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0b12;
-  --panel: #14141f;
-  --panel-2: #1c1c2b;
-  --foreground: #ededf2;
-  --muted: #9a9ab0;
-  --accent: #f5c542;
-  --accent-2: #7c5cff;
+  /* Warm editorial cinema palette */
+  --background: #f6f1e8; /* warm paper */
+  --panel: #fffdf9; /* card surface */
+  --panel-2: #efe7d8; /* subtle inset fill (inputs, chips) */
+  --foreground: #221c16; /* ink */
+  --muted: #8c8071; /* warm gray */
+  --border: #e2d8c6; /* hairline on paper */
+  --accent: #d5432b; /* cinema red */
+  --accent-2: #2f6f66; /* pine teal */
 }
 
 @theme inline {
@@ -16,16 +18,23 @@
   --color-panel-2: var(--panel-2);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-2: var(--accent-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-fraunces);
 }
 
 body {
   background:
-    radial-gradient(1200px 600px at 50% -10%, rgba(124, 92, 255, 0.18), transparent 60%),
+    radial-gradient(1100px 520px at 50% -12%, rgba(213, 67, 43, 0.1), transparent 62%),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Display headlines use the serif with tighter tracking. */
+.font-serif {
+  letter-spacing: -0.01em;
 }

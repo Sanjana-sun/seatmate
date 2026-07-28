@@ -35,8 +35,8 @@ export default function Home() {
             </Link>
           </nav>
         </div>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-          Never watch <span className="text-accent">alone</span>.
+        <h1 className="mt-3 font-serif text-5xl font-medium tracking-tight sm:text-6xl">
+          Never watch <span className="text-accent italic">alone</span>.
         </h1>
         <p className="mt-3 max-w-xl text-muted">
           Going to a movie by yourself? Opt in and we&apos;ll match you with a compatible
@@ -53,7 +53,7 @@ export default function Home() {
           <Link
             key={s.id}
             href={`/showtime/${s.id}`}
-            className="group rounded-2xl border border-white/10 bg-panel p-5 transition hover:border-accent/50 hover:bg-panel-2"
+            className="group rounded-2xl border border-border bg-panel p-5 transition hover:border-accent/50 hover:bg-panel-2"
           >
             <div className="flex items-start gap-4">
               <div className="grid h-14 w-14 place-items-center rounded-xl bg-panel-2 text-3xl">
@@ -68,7 +68,7 @@ export default function Home() {
                   {s.auditorium} · {s.movie.rating} · {s.movie.runtimeMins} min
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                  <span className="rounded-full bg-white/5 px-2.5 py-1 text-muted">
+                  <span className="rounded-full bg-black/5 px-2.5 py-1 text-muted">
                     {s.free} seats open
                   </span>
                   <span className="rounded-full bg-accent-2/15 px-2.5 py-1 text-accent-2">

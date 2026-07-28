@@ -101,7 +101,7 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
       <div className="mt-4 flex items-start gap-4">
         <div className="grid h-16 w-16 place-items-center rounded-xl bg-panel-2 text-4xl">{movie.poster}</div>
         <div>
-          <h1 className="text-2xl font-bold">{movie.title}</h1>
+          <h1 className="font-serif text-3xl font-medium tracking-tight">{movie.title}</h1>
           <p className="text-sm text-muted">
             {showtime.auditorium} · {new Date(showtime.startsAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} ·{" "}
             {movie.rating} · {movie.runtimeMins} min
@@ -122,13 +122,13 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
 
         <div>
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Find me a seatmate</h2>
-          <form onSubmit={submit} className="space-y-5 rounded-2xl border border-white/10 bg-panel p-5">
+          <form onSubmit={submit} className="space-y-5 rounded-2xl border border-border bg-panel p-5">
             <Field label="Your name">
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Sanjana"
-                className="w-full rounded-lg border border-white/10 bg-panel-2 px-3 py-2 outline-none focus:border-accent"
+                className="w-full rounded-lg border border-border bg-panel-2 px-3 py-2 outline-none focus:border-accent"
               />
             </Field>
 
@@ -140,7 +140,7 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
                     key={v.value}
                     onClick={() => setVibe(v.value)}
                     className={`flex items-center justify-between rounded-lg border px-3 py-2 text-left text-sm transition ${
-                      vibe === v.value ? "border-accent bg-accent/10" : "border-white/10 bg-panel-2 hover:border-white/25"
+                      vibe === v.value ? "border-accent bg-accent/10" : "border-border bg-panel-2 hover:border-black/20"
                     }`}
                   >
                     <span>{v.label}</span>
@@ -168,7 +168,7 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
                       key={g}
                       onClick={() => setGenderPref(g)}
                       className={`flex-1 rounded-lg border px-2 py-2 text-sm capitalize transition ${
-                        genderPref === g ? "border-accent bg-accent/10" : "border-white/10 bg-panel-2"
+                        genderPref === g ? "border-accent bg-accent/10" : "border-border bg-panel-2"
                       }`}
                     >
                       {g === "same" ? "Same gender" : "Anyone"}
@@ -184,7 +184,7 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
                       key={n}
                       onClick={() => setMaxGroupSize(n)}
                       className={`flex-1 rounded-lg border py-2 text-sm transition ${
-                        maxGroupSize === n ? "border-accent bg-accent/10" : "border-white/10 bg-panel-2"
+                        maxGroupSize === n ? "border-accent bg-accent/10" : "border-border bg-panel-2"
                       }`}
                     >
                       {n}
@@ -204,7 +204,7 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
                       key={tag}
                       onClick={() => toggleInterest(tag)}
                       className={`rounded-full border px-3 py-1.5 text-xs transition ${
-                        on ? "border-accent bg-accent/15 text-accent" : "border-white/10 bg-panel-2 text-muted hover:border-white/25"
+                        on ? "border-accent bg-accent/15 text-accent" : "border-border bg-panel-2 text-muted hover:border-black/20"
                       }`}
                     >
                       {tag}
@@ -218,14 +218,14 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
               type="button"
               onClick={() => setAisleSeat((v) => !v)}
               className={`flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left text-sm transition ${
-                aisleSeat ? "border-accent bg-accent/10" : "border-white/10 bg-panel-2 hover:border-white/25"
+                aisleSeat ? "border-accent bg-accent/10" : "border-border bg-panel-2 hover:border-black/20"
               }`}
             >
               <span>
                 Prefer an aisle seat
                 <span className="block text-xs text-muted">Easy to slip out any time</span>
               </span>
-              <span className={`h-5 w-9 rounded-full p-0.5 transition ${aisleSeat ? "bg-accent" : "bg-white/15"}`}>
+              <span className={`h-5 w-9 rounded-full p-0.5 transition ${aisleSeat ? "bg-accent" : "bg-black/15"}`}>
                 <span className={`block h-4 w-4 rounded-full bg-white transition ${aisleSeat ? "translate-x-4" : ""}`} />
               </span>
             </button>
@@ -233,13 +233,13 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
             <button
               type="submit"
               disabled={submitting || !name.trim()}
-              className="w-full rounded-lg bg-accent py-2.5 font-semibold text-black transition hover:brightness-110 disabled:opacity-50"
+              className="w-full rounded-lg bg-accent py-2.5 font-semibold text-white transition hover:brightness-110 disabled:opacity-50"
             >
               {submitting ? "Joining…" : "Find my seatmate"}
             </button>
           </form>
 
-          <div className="mt-4 rounded-xl border border-dashed border-white/15 p-4">
+          <div className="mt-4 rounded-xl border border-dashed border-black/15 p-4">
             <p className="text-xs text-muted">
               <span className="font-semibold text-foreground">Theater controls (demo):</span> normally the matcher
               runs automatically a bit before showtime. Trigger it now:
@@ -262,8 +262,8 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
 function SeatMap({ seats, rows, perRow }: { seats: Seat[]; rows: string[]; perRow: number }) {
   const byId = new Map(seats.map((s) => [s.id, s]));
   return (
-    <div className="rounded-2xl border border-white/10 bg-panel p-4">
-      <div className="mx-auto mb-4 h-1.5 w-3/4 rounded-full bg-white/20" />
+    <div className="rounded-2xl border border-border bg-panel p-4">
+      <div className="mx-auto mb-4 h-1.5 w-3/4 rounded-full bg-black/15" />
       <p className="mb-3 text-center text-[10px] uppercase tracking-widest text-muted">Screen</p>
       <div className="space-y-1.5">
         {rows.map((row) => (
@@ -283,7 +283,7 @@ function SeatMap({ seats, rows, perRow }: { seats: Seat[]; rows: string[]; perRo
 function SeatDot({ status }: { status: Seat["status"] }) {
   const cls =
     status === "sold"
-      ? "bg-white/10"
+      ? "bg-black/10"
       : status === "held"
         ? "bg-accent-2"
         : "border border-accent/60 bg-accent/10";
@@ -297,7 +297,7 @@ function Legend() {
         <i className="h-3 w-3 rounded-[3px] border border-accent/60 bg-accent/10" /> open (matcher can use)
       </span>
       <span className="flex items-center gap-1.5">
-        <i className="h-3 w-3 rounded-[3px] bg-white/10" /> sold
+        <i className="h-3 w-3 rounded-[3px] bg-black/10" /> sold
       </span>
       <span className="flex items-center gap-1.5">
         <i className="h-3 w-3 rounded-[3px] bg-accent-2" /> matched group
@@ -320,7 +320,7 @@ function Select({ value, onChange, options }: { value: string; onChange: (v: str
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full rounded-lg border border-white/10 bg-panel-2 px-3 py-2 capitalize outline-none focus:border-accent"
+      className="w-full rounded-lg border border-border bg-panel-2 px-3 py-2 capitalize outline-none focus:border-accent"
     >
       {options.map((o) => (
         <option key={o} value={o}>

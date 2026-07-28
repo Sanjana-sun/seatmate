@@ -56,13 +56,13 @@ export default function RallyPage() {
       <Link href="/" className="text-sm text-muted hover:text-foreground">
         ← All showtimes
       </Link>
-      <h1 className="mt-4 text-3xl font-bold">Rally a showing</h1>
+      <h1 className="mt-4 font-serif text-4xl font-medium tracking-tight">Rally a showing</h1>
       <p className="mt-1 max-w-xl text-muted">
         Want to see something that isn&apos;t on the schedule? Back a slot. When enough solo-goers
         rally, the theater can add the showing and we&apos;ll match everyone who backed it.
       </p>
 
-      <div className="mt-6 rounded-2xl border border-white/10 bg-panel p-5">
+      <div className="mt-6 rounded-2xl border border-border bg-panel p-5">
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block">
             <span className="mb-1.5 block text-xs font-medium text-muted">Your name</span>
@@ -70,7 +70,7 @@ export default function RallyPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Sanjana"
-              className="w-full rounded-lg border border-white/10 bg-panel-2 px-3 py-2 outline-none focus:border-accent"
+              className="w-full rounded-lg border border-border bg-panel-2 px-3 py-2 outline-none focus:border-accent"
             />
           </label>
           <label className="block">
@@ -78,7 +78,7 @@ export default function RallyPage() {
             <select
               value={gender}
               onChange={(e) => setGender(e.target.value as Gender)}
-              className="w-full rounded-lg border border-white/10 bg-panel-2 px-3 py-2 capitalize outline-none focus:border-accent"
+              className="w-full rounded-lg border border-border bg-panel-2 px-3 py-2 capitalize outline-none focus:border-accent"
             >
               {GENDERS.map((g) => (
                 <option key={g} value={g}>
@@ -92,7 +92,7 @@ export default function RallyPage() {
             <select
               value={movieId}
               onChange={(e) => setMovieId(e.target.value)}
-              className="w-full rounded-lg border border-white/10 bg-panel-2 px-3 py-2 outline-none focus:border-accent"
+              className="w-full rounded-lg border border-border bg-panel-2 px-3 py-2 outline-none focus:border-accent"
             >
               {movies.map((m) => (
                 <option key={m.id} value={m.id}>
@@ -106,7 +106,7 @@ export default function RallyPage() {
             <select
               value={window}
               onChange={(e) => setWindow(e.target.value)}
-              className="w-full rounded-lg border border-white/10 bg-panel-2 px-3 py-2 outline-none focus:border-accent"
+              className="w-full rounded-lg border border-border bg-panel-2 px-3 py-2 outline-none focus:border-accent"
             >
               {WINDOWS.map((w) => (
                 <option key={w} value={w}>
@@ -119,7 +119,7 @@ export default function RallyPage() {
         <button
           onClick={() => support(movieId, window)}
           disabled={!name.trim() || !movieId}
-          className="mt-4 w-full rounded-lg bg-accent py-2.5 font-semibold text-black transition hover:brightness-110 disabled:opacity-50"
+          className="mt-4 w-full rounded-lg bg-accent py-2.5 font-semibold text-white transition hover:brightness-110 disabled:opacity-50"
         >
           Start / back this rally
         </button>
@@ -133,13 +133,13 @@ export default function RallyPage() {
           {rallies.map((r) => {
             const ready = r.supporters >= 8;
             return (
-              <div key={r.id} className="flex items-center gap-3 rounded-xl border border-white/10 bg-panel p-3">
+              <div key={r.id} className="flex items-center gap-3 rounded-xl border border-border bg-panel p-3">
                 <div className="grid h-10 w-10 place-items-center rounded-lg bg-panel-2 text-xl">{r.movie?.poster}</div>
                 <div className="flex-1">
                   <p className="text-sm font-medium">{r.movie?.title}</p>
                   <p className="text-xs text-muted">{r.window}</p>
                 </div>
-                <span className={`rounded-full px-2.5 py-1 text-xs ${ready ? "bg-emerald-500/15 text-emerald-400" : "bg-white/10 text-muted"}`}>
+                <span className={`rounded-full px-2.5 py-1 text-xs ${ready ? "bg-emerald-600/12 text-emerald-700" : "bg-black/10 text-muted"}`}>
                   {r.supporters} backing{ready ? " · ready" : ""}
                 </span>
                 <button

@@ -5,6 +5,11 @@
 export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") return;
 
+  // On serverless (Vercel) there is no long-lived process for a timer to run
+  // in. Matching is triggered on read instead (see runDueMatchesFor), so skip
+  // the interval there and only run it for local/self-hosted long-lived servers.
+  if (process.env.VERCEL) return;
+
   const g = globalThis as unknown as { __seatmateScheduler?: NodeJS.Timeout };
   if (g.__seatmateScheduler) return; // survive hot-reload without stacking timers
 

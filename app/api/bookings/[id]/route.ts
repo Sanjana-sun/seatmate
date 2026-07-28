@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
-import { getBooking, getBookings, getGroup, getMovie, getShowtime, reputationOf } from "@/lib/store";
+import { getBooking, getBookings, getGroup, getMovie, getShowtime, reputationOf, runDueMatchesFor } from "@/lib/store";
 
 // A person's own view: their booking, and if matched, who they're sitting with.
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const booking = getBooking(id);
+  let booking = getBooking(id);
   if (!booking) return NextResponse.json({ error: "not found" }, { status: 404 });
+
+  // On-read scheduler: if this showtime's auto-match window has arrived, run it
+  // now. The match page polls this endpoint, so waiting users get matched
+  // automatically even on serverless (no background timer).
+  if (booking.status === "waiting" && runDueMatchesFor(booking.showtimeId)) {
+    booking = getBooking(id)!;
+  }
 
   const showtime = getShowtime(booking.showtimeId);
   const movie = showtime ? getMovie(showtime.movieId) : undefined;

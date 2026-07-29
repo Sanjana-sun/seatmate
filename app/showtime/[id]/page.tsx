@@ -1,8 +1,9 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { AppHeader } from "@/components/AppHeader";
+import { getStoredUser } from "@/lib/auth";
 import { INTEREST_TAGS } from "@/lib/types";
 import type { AgeBand, Gender, GenderPref, Interest, Seat, Vibe } from "@/lib/types";
 
@@ -51,6 +52,8 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
   }
   useEffect(() => {
     load();
+    const u = getStoredUser();
+    if (u) setName(u.name); // prefill from the signed-in demo user
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -93,15 +96,13 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
   const { movie, showtime, seats } = data;
 
   return (
-    <main className="mx-auto w-full max-w-4xl px-5 py-8">
-      <Link href="/" className="text-sm text-muted hover:text-foreground">
-        ← All showtimes
-      </Link>
-
-      <div className="mt-4 flex items-start gap-4">
+    <div className="min-h-full">
+      <AppHeader />
+      <main className="mx-auto w-full max-w-4xl px-5 py-8">
+      <div className="mt-0 flex items-start gap-4">
         <div className="grid h-16 w-16 place-items-center rounded-xl bg-panel-2 text-4xl">{movie.poster}</div>
         <div>
-          <h1 className="font-serif text-3xl font-medium tracking-tight">{movie.title}</h1>
+          <h1 className="text-3xl font-medium tracking-tight">{movie.title}</h1>
           <p className="text-sm text-muted">
             {showtime.auditorium} · {new Date(showtime.startsAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} ·{" "}
             {movie.rating} · {movie.runtimeMins} min
@@ -255,7 +256,8 @@ export default function ShowtimePage({ params }: { params: Promise<{ id: string 
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </div>
   );
 }
 

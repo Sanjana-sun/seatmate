@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  /* Warm editorial cinema palette */
-  --background: #f6f1e8; /* warm paper */
-  --panel: #fffdf9; /* card surface */
-  --panel-2: #efe7d8; /* subtle inset fill (inputs, chips) */
-  --foreground: #221c16; /* ink */
-  --muted: #8c8071; /* warm gray */
-  --border: #e2d8c6; /* hairline on paper */
-  --accent: #d5432b; /* cinema red */
-  --accent-2: #2f6f66; /* pine teal */
+  /* Minimal black & white — gallery/editorial */
+  --background: #ffffff;
+  --panel: #ffffff;
+  --panel-2: #f4f4f5; /* subtle gray fill (inputs, chips) */
+  --foreground: #0a0a0a;
+  --muted: #71717a; /* zinc-500 */
+  --border: #e4e4e7; /* zinc-200 hairline */
+  --accent: #0a0a0a; /* primary = black */
+  --accent-2: #0a0a0a; /* secondary/highlight = black (monochrome) */
 }
 
 @theme inline {
@@ -23,18 +23,17 @@
   --color-accent-2: var(--accent-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-fraunces);
 }
 
 body {
-  background:
-    radial-gradient(1100px 520px at 50% -12%, rgba(213, 67, 43, 0.1), transparent 62%),
-    var(--background);
+  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
-/* Display headlines use the serif with tighter tracking. */
-.font-serif {
-  letter-spacing: -0.01em;
+/* Display headlines: tight, confident grotesk. */
+.display {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
 }

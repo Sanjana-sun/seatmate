@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import { AppHeader } from "@/components/AppHeader";
 
 interface Row {
   showtimeId: string;
@@ -49,11 +49,10 @@ export default function TheaterPage() {
   if (!data) return <main className="mx-auto max-w-4xl px-5 py-10 text-muted">Loading…</main>;
 
   return (
-    <main className="mx-auto w-full max-w-4xl px-5 py-10">
-      <Link href="/" className="text-sm text-muted hover:text-foreground">
-        ← Back to SeatMate
-      </Link>
-      <h1 className="mt-4 font-serif text-4xl font-medium tracking-tight">Theater dashboard</h1>
+    <div className="min-h-full">
+      <AppHeader />
+      <main className="mx-auto w-full max-w-4xl px-5 py-10">
+      <h1 className="text-4xl font-medium tracking-tight">Theater dashboard</h1>
       <p className="mt-1 text-muted">Seats SeatMate turned into sales from your unsold inventory.</p>
 
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -118,7 +117,7 @@ export default function TheaterPage() {
                 <span>
                   <span className="font-medium">{r.movie}</span> <span className="text-muted">· {r.window}</span>
                 </span>
-                <span className={`rounded-full px-2.5 py-1 text-xs ${r.supporters >= 8 ? "bg-emerald-600/12 text-emerald-700" : "bg-black/10 text-muted"}`}>
+                <span className={`rounded-full px-2.5 py-1 text-xs ${r.supporters >= 8 ? "bg-foreground text-background" : "bg-panel-2 text-muted"}`}>
                   {r.supporters} backing{r.supporters >= 8 ? " · schedule it" : ""}
                 </span>
               </div>
@@ -126,7 +125,8 @@ export default function TheaterPage() {
           </div>
         </>
       )}
-    </main>
+      </main>
+    </div>
   );
 }
 

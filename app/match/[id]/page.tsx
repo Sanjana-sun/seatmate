@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import { AppHeader } from "@/components/AppHeader";
 
 interface Rep {
   avg: number | null;
@@ -73,15 +73,13 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
   }
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-5 py-12">
-      <Link href="/" className="text-sm text-muted hover:text-foreground">
-        ← All showtimes
-      </Link>
-
-      <div className="mt-6 flex items-center gap-3">
+    <div className="min-h-full">
+      <AppHeader />
+      <main className="mx-auto w-full max-w-2xl px-5 py-12">
+      <div className="flex items-center gap-3">
         <div className="grid h-14 w-14 place-items-center rounded-xl bg-panel-2 text-3xl">{movie?.poster}</div>
         <div>
-          <h1 className="font-serif text-2xl font-medium">{movie?.title}</h1>
+          <h1 className="text-2xl font-medium">{movie?.title}</h1>
           <p className="text-sm text-muted">
             {showtime?.auditorium} · {time}
           </p>
@@ -177,16 +175,17 @@ export default function MatchPage({ params }: { params: Promise<{ id: string }> 
           </p>
         </div>
       )}
-    </main>
+      </main>
+    </div>
   );
 }
 
 function RepBadge({ rep }: { rep: Rep }) {
   const map: Record<Rep["label"], { text: string; cls: string }> = {
-    new: { text: "New", cls: "bg-black/8 text-muted" },
-    trusted: { text: `★ ${rep.avg?.toFixed(1)}`, cls: "bg-emerald-600/12 text-emerald-700" },
-    watch: { text: `★ ${rep.avg?.toFixed(1)}`, cls: "bg-amber-600/15 text-amber-700" },
-    blocked: { text: "Restricted", cls: "bg-red-600/12 text-red-700" },
+    new: { text: "New", cls: "bg-panel-2 text-muted" },
+    trusted: { text: `★ ${rep.avg?.toFixed(1)}`, cls: "bg-foreground text-background" },
+    watch: { text: `★ ${rep.avg?.toFixed(1)}`, cls: "bg-panel-2 text-foreground" },
+    blocked: { text: "Restricted", cls: "border border-foreground text-foreground" },
   };
   const b = map[rep.label];
   return <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${b.cls}`}>{b.text}</span>;

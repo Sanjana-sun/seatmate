@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import { AppHeader } from "@/components/AppHeader";
 import type { Gender } from "@/lib/types";
 
 interface Movie {
@@ -52,11 +52,10 @@ export default function RallyPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-5 py-10">
-      <Link href="/" className="text-sm text-muted hover:text-foreground">
-        ← All showtimes
-      </Link>
-      <h1 className="mt-4 font-serif text-4xl font-medium tracking-tight">Rally a showing</h1>
+    <div className="min-h-full">
+      <AppHeader />
+      <main className="mx-auto w-full max-w-3xl px-5 py-10">
+      <h1 className="text-4xl font-medium tracking-tight">Rally a showing</h1>
       <p className="mt-1 max-w-xl text-muted">
         Want to see something that isn&apos;t on the schedule? Back a slot. When enough solo-goers
         rally, the theater can add the showing and we&apos;ll match everyone who backed it.
@@ -139,7 +138,7 @@ export default function RallyPage() {
                   <p className="text-sm font-medium">{r.movie?.title}</p>
                   <p className="text-xs text-muted">{r.window}</p>
                 </div>
-                <span className={`rounded-full px-2.5 py-1 text-xs ${ready ? "bg-emerald-600/12 text-emerald-700" : "bg-black/10 text-muted"}`}>
+                <span className={`rounded-full px-2.5 py-1 text-xs ${ready ? "bg-foreground text-background" : "bg-panel-2 text-muted"}`}>
                   {r.supporters} backing{ready ? " · ready" : ""}
                 </span>
                 <button
@@ -154,6 +153,7 @@ export default function RallyPage() {
           })}
         </div>
       )}
-    </main>
+      </main>
+    </div>
   );
 }

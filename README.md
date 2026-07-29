@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SeatMate
 
-## Getting Started
+**Never watch alone.** SeatMate matches solo moviegoers with a compatible seatmate and sits them together, using only the seats a theater hasn't sold. It sits on top of existing ticketing rather than replacing it, so a theater turns would-be-empty seats into sales while solo-goers get company (and maybe a new friend).
 
-First, run the development server:
+🔗 **Live demo:** https://seatmate-kohl.vercel.app
+
+> Demo note: the hosted version uses an in-memory store and a demo (frontend-only) login, so data resets when the serverless instance goes cold. See [Roadmap](#roadmap) for the path to a persistent, fully-authenticated version.
+
+---
+
+## How it works
+
+1. **Opt in.** Pick a showtime and share your vibe (here to watch / up for a chat / open to a new friend), age band, group-size cap, taste tags, and safety preferences.
+2. **Get matched.** A matcher groups compatible solo-goers and assigns them adjacent seats from the theater's *unsold* inventory. It runs automatically shortly before showtime.
+3. **Sit together.** You see who you're paired with, a shared ice-breaker, and a one-tap way to switch to a solo seat if you change your mind.
+
+## The matcher
+
+The core logic lives in [`lib/matching.ts`](lib/matching.ts) as a pure, dependency-free module (easy to test, easy to move to any backend):
+
+- **Compatibility scoring** on vibe (a talkativeness scale), age band, and shared interest tags.
+- **Hard constraints:** same-gender matching when requested (enforced both ways); incompatible vibes are never paired.
+- **Greedy grouping** capped at the smallest `maxGroupSize` among members, so nobody lands in a bigger group than they asked for.
+- **Seat assignment** finds a run of adjacent seats in a single row, preferring an aisle when someone wants an easy exit; anyone who can't be matched is still seated solo.
+- **Reputation gating:** low-rated or reported users are seated but never matched.
+
+Covered by a unit suite in [`lib/matching.test.ts`](lib/matching.test.ts).
+
+## Features
+
+- **Matching + adjacent-seat assignment** over unsold inventory only
+- **Trust & safety:** same-gender option, post-show peer ratings, reporting, reputation that gates future matching, and a graceful one-tap exit to a solo seat
+- **Interest tags** with tailored ice-breakers
+- **Rally a showing:** back an unscheduled slot; enough backers flips it to "ready to schedule"
+- **Theater dashboard:** seats filled, revenue uplift, occupancy, and rally demand
+- **Auto-match scheduler** that runs before each showtime (on-read on serverless, background timer locally)
+- **Demo login** with prefilled identity across the flow
+
+## Tech stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind CSS 4**
+- In-memory store behind a single access layer ([`lib/store.ts`](lib/store.ts)): swap for Postgres/Turso without touching the rest of the app
+- Node's built-in test runner for the matcher
+
+## Run it locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Run the matcher tests:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm test
+```
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+  page.tsx              Landing page
+  login/                Demo login / signup
+  showtimes/            Showtime list (gated)
+  showtime/[id]/        Seat map + opt-in form
+  match/[id]/           Match reveal (ratings, ice-breaker, exit)
+  theater/              Theater yield dashboard
+  rally/                Rally a showing
+  api/                  Route handlers (bookings, match, ratings, rally, ...)
+lib/
+  matching.ts           The matcher (pure)
+  matching.test.ts      Unit tests
+  store.ts              Data access + seed
+  types.ts              Domain model
+  auth.ts, useUser.ts   Demo session
+instrumentation.ts      Local match scheduler
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Roadmap
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Real authentication (sessions + hashed passwords) on a persistent database (Turso/Postgres)
+- Identity verification to strengthen the trust layer
+- Real theater ticketing integration
+- Notifications when a match is confirmed
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built as a full-stack demo. The matcher, trust model, and theater economics are the interesting parts; the rest is deliberately simple so the idea reads clearly.
